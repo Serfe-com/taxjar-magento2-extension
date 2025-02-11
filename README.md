@@ -1,61 +1,65 @@
-# Magento 2 Sales Tax Extension by TaxJar
+<img src=docs/serfe.png width=200 align="right"/>
 
-Simplify your sales tax with live checkout calculations and zip-based backup rates from [TaxJar](http://www.taxjar.com).
+# Serfe TaxJar Magento 2 Extension
 
-To get started, check out our [M2 extension guide](http://www.taxjar.com/guides/integrations/magento2/)!
+[![Latest Stable Version](https://poser.pugx.org/serfe/magento2-taxjar/version)](https://packagist.org/packages/serfe/magento2-taxjar)
 
-## Getting Started
+The **Serfe TaxJar Magento 2 Extension** is a fork of the [official TaxJar Magento 2 module (v2.2.0)](https://github.com/taxjar/taxjar-magento2-extension). This extension integrates seamlessly with [TaxJar](http://www.taxjar.com) to provide real-time sales tax calculations and zip-based backup rates.
 
-Download the extension as a ZIP file from this repository or install our module with [Composer](https://getcomposer.org/) using the following command:
+## Key Features
 
+- **Real-Time Tax Calculation**: Automatically calculates sales tax during checkout using TaxJar's API.
+- **Zip-Based Backup Rates**: Ensures tax accuracy even if live API calls fail.
+- **Seamless Magento Integration**: Compatible with Magento's native tax configuration.
+- **Enhanced Maintenance & Support**: Updated and maintained by [Serfe](https://www.serfe.com/).
+
+## Installation Guide
+
+### Install via Composer
+
+Run the following command in your terminal:
+
+```bash
+composer require serfe/magento2-taxjar
 ```
-composer require taxjar/module-taxjar
-```
 
-If you're installing the extension manually, unzip the archive and upload the files to `/app/code/Taxjar/SalesTax`. After uploading, run the following [Magento CLI](http://devdocs.magento.com/guides/v2.0/config-guide/cli/config-cli-subcommands.html) commands:
+### Enable and Set Up the Module
 
-```
-bin/magento module:enable Taxjar_SalesTax --clear-static-content
+After installation, enable and configure the module using Magento CLI:
+
+```bash
+bin/magento module:enable Serfe_TaxJar
 bin/magento setup:upgrade
 bin/magento setup:di:compile
+bin/magento cache:clean
 ```
 
-These commands will enable the TaxJar extension, perform necessary database updates, and re-compile your Magento store. From there, you'll want to run through the pre-import checklist and set everything up using our [extension guide](http://www.taxjar.com/guides/integrations/magento2/)).
+## Configuration
 
-## Tests
+To configure the extension, go to **Stores > Configuration > Sales > TaxJar** and enter your **TaxJar API token**. Follow the official [TaxJar Magento 2 Guide](http://www.taxjar.com/guides/integrations/magento2/) for detailed setup instructions.
 
-To run our integration tests for checkout calculations, clone the repository into your local instance of Magento 2. You'll need an active TaxJar API token (preferably a test account) to run these tests.
+## Running Tests
 
-```
-git clone https://github.com/taxjar/taxjar-magento2-extension.git app/code/Taxjar/SalesTax
-```
+To run integration tests for checkout calculations, clone the repository into your Magento 2 instance. You'll need an active TaxJar API token (preferably a test account).
 
-Backup or rename your existing `phpunit.xml` under `dev/tests/integration`. Copy the `phpunit.xml file` in the TaxJar module under `app/code/Taxjar/SalesTax/Test/Integration`:
-
-```
-cp app/code/Taxjar/SalesTax/Test/Integration/phpunit.xml dev/tests/integration/phpunit.xml
+```bash
+git clone https://github.com/serfe/magento2-taxjar.git app/code/Serfe/TaxJar
 ```
 
-Rename `install-config-mysql.php.dist` to `install-config-mysql.php` under `dev/tests/integration/etc`. Make sure Magento has access to a MySQL database for running integration tests.
+Then, follow the setup instructions to run PHPUnit tests.
 
-Copy `Test/Integration/credentials.php.dist` to `credentials.php` in the same directory and add your TaxJar API token:
+## About This Fork
 
-```
-cp app/code/Taxjar/SalesTax/Test/Integration/credentials.php.dist app/code/Taxjar/SalesTax/Test/Integration/credentials.php
-```
+This module is a **fork of the official TaxJar Magento 2 extension (v2.2.0)**. The original repository can be found at [GitHub - TaxJar Magento 2 Extension](https://github.com/taxjar/taxjar-magento2-extension). Our fork includes maintenance updates and improvements for better compatibility with newer Magento versions.
 
-Finally, run the TaxJar test suite using PHPUnit:
+## About Us
 
-```
-vendor/bin/phpunit -c ~/OSS/magento2/dev/tests/integration/phpunit.xml --testsuite “Taxjar”
-```
+[Serfe](https://www.serfe.com/?utm_medium=referral_profile&utm_source=github&utm_campaign=115959) specializes in e-commerce solutions for Magento 2, focusing on performance, scalability, and usability. Visit our website for more details.
 
-Notice that the configuration flag should include the full path to `phpunit.xml`.
+## Contributing
 
-## License
+We welcome contributions! To contribute, fork this repository, make your changes, and submit a pull request.
 
-TaxJar's Magento 2 module is released under the [Open Software License 3.0](https://opensource.org/licenses/OSL-3.0) (OSL-3.0).
+---
 
-## Support
-
-If you find a bug in our extension, [open a new issue](https://github.com/taxjar/taxjar-magento2-extension/issues/new) right here in GitHub. For general questions about TaxJar or specific issues with your store, please [contact us](http://www.taxjar.com/contact/) after going through our extension guide.
+<sub>Inspired by the official [TaxJar Magento 2 extension](https://github.com/taxjar/taxjar-magento2-extension).</sub>
