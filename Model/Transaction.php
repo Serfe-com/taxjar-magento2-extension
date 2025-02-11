@@ -75,6 +75,8 @@ class Transaction
      */
     protected $taxjarConfig;
 
+    protected \Magento\Tax\Model\CalculationFactory $_calculationFactory;
+
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Taxjar\SalesTax\Model\ClientFactory $clientFactory
