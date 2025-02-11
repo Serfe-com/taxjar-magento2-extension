@@ -1,8 +1,8 @@
 {
-    "name": "taxjar/module-taxjar",
+    "name": "serfe/taxjar-magento2-extension",
     "description": "TaxJar Sales Tax Module for Magento 2",
     "type": "magento2-module",
-    "version": "2.2.0",
+    "version": "1.0.0",
     "license": "OSL-3.0",
     "require": {
         "magento/framework": "^103.0.0"
