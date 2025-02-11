@@ -1,4 +1,4 @@
-<img src=docs/serfe.png width=200 align="right"/>
+<img src=docs/serfe.png width=100 align="right"/>
 
 # Serfe TaxJar Magento 2 Extension
 
