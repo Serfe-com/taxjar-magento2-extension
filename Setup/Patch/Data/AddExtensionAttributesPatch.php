@@ -137,17 +137,23 @@ class AddExtensionAttributesPatch implements DataPatchInterface, PatchRevertable
                     'user_defined' => true,
                     'position' => 501,
                     'system' => 0,
-                    'sort_order' => 50,
-                    'default' => 'non_exempt',
-
-                    'source' => CustomerExemptionType::class,
+                    'sort_order' => 51,
+                    'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                     'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
 
-                    'is_used_in_grid' => true,
-                    'is_visible_in_grid' => true,
-                    'is_filterable_in_grid' => true,
+                    'is_used_in_grid' => false,
+                    'is_visible_in_grid' => false,
+                    'is_filterable_in_grid' => false,
                     'is_html_allowed_on_front' => true,
-                    'visible_on_front' => true
+                    'visible_on_front' => false,
+                    'option'                   => [
+                        'values' => [
+                            'Non-Exempt',
+                            'Wholesale',
+                            'Government',
+                            'Other',
+                        ],
+                    ],
                 ]
             );
 

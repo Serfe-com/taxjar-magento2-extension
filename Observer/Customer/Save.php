@@ -21,10 +21,17 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * Class Save
+ * Observes the customer save event to manage TaxJar synchronization.
+ */
 class Save extends Customer
 {
     /**
-     * @param Observer $observer
+     * Executes the observer logic.
+     *
+     * @param Observer $observer The event observer instance.
+     * @return void
      * @throws LocalizedException
      */
     public function execute(Observer $observer)
@@ -36,8 +43,8 @@ class Save extends Customer
             return;
         }
 
-        $customerAddress = $customer->getAddresses() ?: [];
-        $customerAddress = reset($customerAddress);
+        $customerAddresses = $customer->getAddresses();
+        $customerAddress = !empty($customerAddresses) ? reset($customerAddresses) : null;
 
         try {
             $shippingAddressId = $customer->getDefaultShipping();
@@ -50,25 +57,31 @@ class Save extends Customer
         }
 
         // Null values are used to delete old address data
+        $tjRegions = $customer->getCustomAttribute('tj_regions');
+        $tjLastSync = $customer->getCustomAttribute('tj_last_sync');
+        $tjExemptionType = $customer->getCustomAttribute('tj_exemption_type');
         $data = [
-            'customer_id' => $customer->getId(),
-            'exemption_type' => $customer->getCustomAttribute('tj_exemption_type')->getValue(),
-            'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
-            'exempt_regions' => $this->getRegionsArray($customer->getCustomAttribute('tj_regions')->getValue()),
-            'country' => null,
-            'state' => null,
-            'zip' => null,
-            'city' => null,
-            'street' => null
+            'customer_id'    => $customer->getId(),
+            'exemption_type' => !$tjExemptionType ? 'non_exempt' : $tjExemptionType->getValue(),
+            'name'           => $customer->getFirstname() . ' ' . $customer->getLastname(),
+            'exempt_regions' => $this->getRegionsArray(!$tjRegions ? [] : $tjRegions->getValue()),
+            'country'        => null,
+            'state'          => null,
+            'zip'            => null,
+            'city'           => null,
+            'street'         => null,
         ];
 
         if ($customerAddress) {
-            $data = array_merge($data, [
-                'country' => $customerAddress->getCountryId(),
-                'zip' => $customerAddress->getPostcode(),
-                'city' => $customerAddress->getCity(),
-                'street' => implode(", ", $customerAddress->getStreet())
-            ]);
+            $data = array_merge(
+                $data,
+                [
+                    'country' => $customerAddress->getCountryId(),
+                    'zip'     => $customerAddress->getPostcode(),
+                    'city'    => $customerAddress->getCity(),
+                    'street'  => implode(', ', $customerAddress->getStreet()),
+                ]
+            );
 
             if (get_class($customerAddress) == \Magento\Customer\Model\Address::class) {
                 $data['state'] = $customerAddress->getRegionCode();
@@ -77,7 +90,7 @@ class Save extends Customer
             }
         }
 
-        $response = $this->updateTaxjar($customer->getCustomAttribute('tj_last_sync')->getValue(), $data);
+        $response = $this->updateTaxjar(!$tjLastSync ? '' : $tjLastSync->getValue(), $data);
 
         if (isset($response)) {
             $this->logger->log('Successful API response: ' . json_encode($response), 'success');
