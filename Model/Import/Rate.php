@@ -72,7 +72,11 @@ class Rate
      * @var \Magento\Tax\Model\Calculation\Rule
      */
     protected $rule;
-
+    
+    /**
+     * Array
+     */
+    protected $apikey;
     protected \Magento\Tax\Model\CalculationFactory $_calculationFactory;
 
     /**

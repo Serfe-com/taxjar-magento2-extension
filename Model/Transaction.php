@@ -75,6 +75,10 @@ class Transaction
      */
     protected $taxjarConfig;
 
+    /**
+     * Array
+     */
+    protected $apikey;
     protected \Magento\Tax\Model\CalculationFactory $_calculationFactory;
 
     /**
