@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ## [2.3.0] - 2025-02-14
-Released by [Serfe] 
+Maintained by [Serfe] 
 ### Fixed
 - Update compatibility with php 8.2
 - Issue with Exception Type on customer save
